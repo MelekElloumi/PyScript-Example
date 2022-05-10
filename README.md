@@ -2,7 +2,7 @@
 # PyScript Example
 - This is an example implemented with PyScript, the latest Python innovation.
 - It uses matplotlib, numpy and random to plot images and a histogram.
-- HTML ([source code](https://github.com/MelekElloumi/PyScript-Example/blob/main/pysript_example.html), 
+- HTML [source code](https://github.com/MelekElloumi/PyScript-Example/blob/main/pysript_example.html)
 - Check it for yourself in my [Github page](https://melekelloumi.github.io/pysript_example.html))
 
 ## What is PyScript?
