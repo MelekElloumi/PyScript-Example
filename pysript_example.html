@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>PyScript Example</title>
+
+	 <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+	<script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+	 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<py-env>
+      - matplotlib
+	</py-env>
+  </head>
+
+  <body style="margin: 25px 75px 25px 75px;">
+	<div class="container-fluid">
+	<div class="p-5 text-center bg-light">
+		<h1 class="mb-3">PyScript example</h1>
+		<p>By <a href="https://github.com/MelekElloumi">Melek Elloumi</a></p>
+	  </div>
+	  <br>
+	<h3>PyScript</h3>
+		(It may take some time to load the python scripts)
+	<h5><py-script>
+		print("""
+		PyScript is a framework that allows users to create rich Python applications in the browser using HTML’s interface.\n
+		By just invoking a py-script element, you can write python code that uses its rich libraries to do wonders client-side.
+		If you check this page's source code, you'll see that this paragraph was printed with a python print command
+		and not in html.
+		""")
+	</py-script></h5>
+	<br>
+
+<div class="alert alert-primary" role="alert">
+	<h3>Test some functions on this PY image</h3>
+	<p>Click a button and it will update the image</b></p>
+	<div><button id="original_image"  style="margin-top: 10px;margin-bottom: 10px;" type="button" class="btn btn-primary" pys-onClick="original">
+        PY Image  <button id="inverse_image"  style="margin-top: 10px;margin-bottom: 10px;" type="button" class="btn btn-primary" pys-onClick="inverse">
+        Inverse<button id="random"  style="margin-top: 10px;margin-bottom: 10px;" type="button" class="btn btn-primary" pys-onClick="random">Random</div>
+
+  <div id="imagefield" class="container-md"></div>
+	<py-script>
+import matplotlib.pyplot as plt
+import numpy as np
+
+imagefield = Element("imagefield")
+def show_image(image,title):
+	fig1, ax1 = plt.subplots()
+	ax1.imshow(image,cmap='gray')
+	ax1.set_title(title)
+	imagefield.write(fig1)
+
+image= np.array([
+    [255,255,255,255,255,255,255,255,255],
+    [225,0,0,0,225,0,225,0,225],
+    [195,0,195,0,195,0,195,0,195],
+    [165,0,0,0,165,0,0,0,165],
+    [135,0,135,135,135,135,0,135,135],
+    [105,0,105,105,105,105,0,105,105],
+    [75,75,75,75,75,75,75,75,75]
+])
+def inverse(*ags, **kws):
+	image_inv=255-image
+	show_image(image_inv,"Inversed PY image")
+
+def original(*ags, **kws):
+	show_image(image,"PY image")
+
+def random(*ags, **kws):
+	image_rand= np.random.randint(266, size=(7, 9))
+	show_image(image_rand,"Random image")
+
+original()
+
+	</py-script>
+</div>
+	<h2 style="border:5px; border-radius: 10px; padding:10px;background-color:gray; color:cyan">Image Histogram</h2>
+	<h4>This will generate the histogram of PY image, by <b><code>Matplotlib and NumPy</code></b></h4>
+		<div><button id="histogram"  style="margin-top: 10px;margin-bottom: 10px;" type="button" class="btn btn-primary" pys-onClick="show_hist">
+        Histogram</div>
+		<div id="histogramfield" class="container-md"></div>
+		<div id="histogramarray" class="container-md"></div>
+	<py-script>
+histogramfield = Element("histogramfield")
+def show_hist(*ags, **kws):
+	fig2,ax2 = plt.subplots(1,1,dpi=150,figsize=(5,2))
+	histogram=np.bincount(image.flatten())
+	ax2.hist(image.flatten())
+	ax2.set_title("Histogram of image",fontsize=11)
+	histogramfield.write(fig2)
+	Element("histogramarray").write(np.histogram(image.flatten())[0])
+	</py-script>
+
+</div>
+
+  </body>
+
+</html>
